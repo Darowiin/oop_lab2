@@ -42,7 +42,6 @@ public:
 	Employee(string full_name, int year_of_hiring, EmployeeType type, int basic_rate_for_hour, double percent_of_individual_allowance, int number_of_hours_in_month);
 	Employee(const Employee& employer);
 
-	bool check_input();
 	void Swap(Employee& other) noexcept;
 	Employee& operator=(Employee other);
 	friend istream& operator>>(istream& in, Employee& item);
@@ -64,6 +63,7 @@ public:
 
 	ListPtr get_employee_by_index(int i);
 	int get_size();
+	void set_size(size_t size);
 
 	ListPtr operator[](int index) const;
 	ListPtr& operator[](int index);
