@@ -18,7 +18,7 @@ if(MSVC)
 endif()
 
 # Объявляем библиотеку
-add_library(employee2 SHARED "include/employee2/employee2.h" "src/employee2.cc"  "src/employee2.cpp")
+add_library(employee2 SHARED "include/employee2/employee2.h" "src/employee2.cc")
 target_include_directories(employee2 PUBLIC "include")
 
 # Подключаем googletest
@@ -28,6 +28,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Объявляем тесты
-add_executable(employee2_tests "tests/employee2_tests.cc" "src/employee2.cpp")
+add_executable(employee2_tests "tests/employee2_tests.cc")
 target_link_libraries(employee2_tests employee2 GTest::gtest_main)
 
+# Объявляем файл для консольного приложения
+add_executable(console "src/console.cc")
+target_link_libraries(console employee2)
