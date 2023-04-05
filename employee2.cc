@@ -1,7 +1,6 @@
 #pragma warning(disable:6386)
 #include <employee2/employee2.h>
 #include <cmath>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -24,7 +23,7 @@ double Employee::get_percent_of_individual_allowance() const { return percent_of
 int Employee::get_number_of_hours_in_month() const { return number_of_hours_in_month;}
 //c-tors and d-tors
 Employee::Employee() {
-	full_name = "";
+	full_name = "default";
 	year_of_hiring = 0;
 	current_year = 0;
 	type = Staff;
@@ -64,14 +63,14 @@ Employee::Employee(const Employee& employer) {
 }
 EmployeeList::EmployeeList()
 {
-	this->_size = 10;
+	this->_size = 5;
 	_employee = new Employee * [_size];
 	for (int i = 0; i < _size; ++i) _employee[i] = new Employee();
 }
 EmployeeList::EmployeeList(ListPtr* employees, size_t size) {
 	this->_size = size;
 
-	employees = new Employee * [_size];
+	_employee = new Employee * [_size];
 	for (int i = 0; i < size; ++i) {
 		this->_employee[i] = new Employee();
 		this->_employee[i]->set_full_name(employees[i]->get_full_name());
@@ -84,6 +83,7 @@ EmployeeList::EmployeeList(ListPtr* employees, size_t size) {
 EmployeeList::EmployeeList(ListPtr* employees, size_t size,int) {
 	this->_size = size;
 
+	_employee = new Employee * [_size];
 	for (int i = 0; i < size; ++i) {
 		this->_employee[i] = new Employee();
 		this->_employee[i]->set_full_name(employees[i]->get_full_name());
@@ -189,23 +189,23 @@ ListPtr& EmployeeList::operator[](int index)
 	}
 	return _employee[index];
 }
-//getters for list
+//getters and setter for list
 ListPtr EmployeeList::get_employee_by_index(int index) { 
 	return _employee[index]; 
 }
 int EmployeeList::get_size() { 
 	return _size; 
 }
+void EmployeeList::set_size(size_t size) {
+	_size = size;
+}
 //to change the array
 void EmployeeList::add_item(int index, Employee employer) {
-	if (index < 0 || (index > _size))
-	{
+	if ((index < 0) || (index > _size)) {
 		throw std::runtime_error("Index out of range.");
 	}
-
 	++_size;
 	ListPtr* employees = new Employee * [_size];
-
 	for (int i = 0; i < index; ++i) {
 		employees[i] = new Employee(*this->_employee[i]);
 	}
@@ -284,4 +284,3 @@ void EmployeeList::show_all() {
 		cout << endl;
 	}
 }
-//TODO check_input
