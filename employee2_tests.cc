@@ -4,7 +4,7 @@
 
 TEST(EmployeeTests, EmployeeDefaultConstructorNameTest) {
     Employee person1 = Employee();
-    EXPECT_EQ(person1.get_full_name(),"");
+    EXPECT_EQ(person1.get_full_name(),"default");
 }
 TEST(EmployeeTests, EmployeeDefaultConstructorYearOfHiringTest) {
     Employee person1 = Employee();
@@ -64,26 +64,17 @@ TEST(EmployeeTests, EmployeeComputeSalaryTest2) {
 }
 TEST(EmployeeListTests, EmployeeListDefaultConstructorTest) {
     EmployeeList EL = EmployeeList();
-    EXPECT_EQ(EL.get_size(), 6);
+    EXPECT_EQ(EL.get_size(), 5);
 }
 TEST(EmployeeListTests, EmployeeListDefaultConstructorTest2) {
     EmployeeList EL = EmployeeList();
     EXPECT_EQ(EL[0]->get_type(), Staff);
 }
-TEST(EmployeeListTests, EmployeeListConstructorTest) {
-    ListPtr* employee;
-    employee[0][0] = Employee("Konstantin Jukov", 2021, Staff, 30000, 2023);
-    employee[0][1] = Employee("Vladimir Petrov", 2020, Staff, 45000, 2023);
-    employee[0][2] = Employee("Ivan Krilov", 2021, Freelance, 150, 2.7, 140);
-    EmployeeList EL = EmployeeList(employee, 10);
-    EXPECT_EQ(EL.get_size(), 3);
-    EXPECT_EQ(EL[2]->get_type(), Freelance);
-}
 TEST(EmployeeListTests, EmployeeListAddEmployerTest) {
     EmployeeList EL = EmployeeList();
     Employee employer = Employee("Konstantin Jukov", 2021, Staff, 30000, 2023);
     EL.add_item(2, employer);
-    EXPECT_EQ(EL.get_size(), 7);
+    EXPECT_EQ(EL.get_size(), 6);
     EXPECT_EQ(EL[2]->get_full_name(), "Konstantin Jukov");
     EXPECT_EQ(EL[0]->compute_salary(), 0);
     EXPECT_EQ(EL[0]->get_basic_rate_for_month(), 0);
@@ -92,7 +83,7 @@ TEST(EmployeeListTests, EmployeeListAddEmployerTest) {
 TEST(EmployeeListTests, EmployeeListDelEmployerTest) {
     EmployeeList EL = EmployeeList();
     EL.del_item(0);
-    EXPECT_EQ(EL.get_size(), 5);
+    EXPECT_EQ(EL.get_size(), 4);
     EXPECT_EQ(EL[0]->compute_salary(), 0);
     EXPECT_EQ(EL[1]->get_basic_rate_for_month(), 0);
 }
@@ -101,29 +92,24 @@ TEST(EmployeeListTests, EmployeeListClearTest) {
     EL.clear();
     EXPECT_EQ(EL.get_size(), 0);
 }
-//TEST(EmployeeListTests, EmployeeListMaxSalaryTest) {
-//    ListPtr* employee;
-//    employee[0][0] = Employee("Konstantin Jukov", 2021, Staff, 30000, 2023);
-//    employee[0][1] = Employee("Vladimir Petrov", 2020, Staff, 45000, 2023);
-//    employee[0][2] = Employee("Ivan Krilov", 2020, Staff, 50000, 2023);
-//    EmployeeList EL = EmployeeList(employee, 10);
-//    EXPECT_EQ(EL.find_with_max_salary(employee), 2);
-//}
-//TEST(EmployeeListTests, EmployeeListMaxSalaryTest2) {
-//    ListPtr* employee;
-//    employee[0][0] = Employee("Konstantin Jukov", 2021, Staff, 30000, 2023);
-//    employee[0][1] = Employee("Vladimir Petrov", 2020, Freelance, 350, 4, 150);
-//    employee[0][2] = Employee("Ivan Krilov", 2020, Staff, 50000, 2023);
-//    EmployeeList EL = EmployeeList(employee, 10);
-//    EXPECT_EQ(EL.find_with_max_salary(employee), 1);
-//}
-//TEST(ExceptionTests, ExeptionIndexOutTest) {
-//    EmployeeList EL = EmployeeList();
-//    EXPECT_THROW(EL[-1]->compute_salary(), std::runtime_error);
-//    EXPECT_THROW(EL[10]->compute_salary(), std::runtime_error);
-//}
-//TEST(ExceptionTests, ExeptionEmptyTest) {
-//    EmployeeList EL = EmployeeList();
-//    EL._size = 0;
-//    EXPECT_THROW(EL.del_employer(1), std::runtime_error);
-//}
+TEST(EmployeeListTests, EmployeeListMaxSalaryTest) {
+    EmployeeList EL;
+    ListPtr employee = new Employee[5];
+    EL.add_item(0, employee[0] = Employee("John Manning", 2021, Staff, 30000, 2023));
+    EL.add_item(1, employee[1] = Employee("Leroy Williams", 2018, Freelance, 400, 2.5,250));
+    EL.add_item(2, employee[2] = Employee("Matthew Cooper", 2015, Staff, 40000, 2023));
+    EL.add_item(3, employee[3] = Employee("Anthony Miller", 2017, Freelance, 350, 3.5, 200));
+    EL.add_item(4, employee[4] = Employee("Peter Manning", 2019, Staff, 50000, 2023));
+    EXPECT_EQ(EL.find_with_max_salary(), 1);
+    delete[] employee;
+}
+TEST(ExceptionTests, ExeptionIndexOutTest) {
+    EmployeeList EL = EmployeeList();
+    EXPECT_THROW(EL[-1]->compute_salary(), std::runtime_error);
+    EXPECT_THROW(EL[10]->compute_salary(), std::runtime_error);
+}
+TEST(ExceptionTests, ExeptionEmptyTest) {
+    EmployeeList EL = EmployeeList();
+    EL.set_size(0);
+    EXPECT_THROW(EL.del_item(1), std::runtime_error);
+}
