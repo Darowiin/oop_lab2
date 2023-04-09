@@ -30,6 +30,7 @@ int main() {
 		switch (input) {
 		case 1:
 			system("cls");
+			EL.show_all();
 			cout << "Введите индекс: ";
 			cin >> idx;
 			cin >> item;
@@ -37,6 +38,7 @@ int main() {
 			break;
 		case 2:
 			system("cls");
+			EL.show_all();
 			cout << "Введите индекс: ";
 			cin >> idx;
 			EL.del_item(idx);
@@ -47,11 +49,13 @@ int main() {
 			break;
 		case 4:
 			system("cls");
+			EL.show_all();
 			idx = EL.find_with_max_salary();
 			cout << "Индекс работника с максимальной заработной платой: " << idx << endl;
 			break;
 		case 5:
 			system("cls");
+			EL.show_all();
 			cout << "Введите индекс: ";
 			cin >> idx;
 			EL[idx]->compute_salary();
