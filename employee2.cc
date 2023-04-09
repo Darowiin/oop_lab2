@@ -280,6 +280,7 @@ void EmployeeList::print_current(int index) {
 }
 void EmployeeList::show_all() {
 	for (int i = 0; i < _size; ++i) {
+		cout << i << ':';
 		print_current(i);
 		cout << endl;
 	}
